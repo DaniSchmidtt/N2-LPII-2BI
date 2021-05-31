@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Password Wallet</title>
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+	rel="stylesheet" crossorigin="anonymous">
+</head>
+<body>
+
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="index.html">Password Wallet</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="index.html">Passwords</a></li>
+					<li><a href="remember.html">Remember</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div id="main" class="container-fluid" style="margin-top: 50px">
+
+		<div id="top" class="row">
+			<div class="col-sm-3">
+				<h2>Senhas</h2>
+			</div>
+
+			<div class="col-sm-3">
+				<a href="add.html" class="btn btn-primary pull-right h2">Adicionar
+					senha</a>
+			</div>
+		</div>
+		<!-- /#top -->
+
+
+		<hr />
+		<div id="list" class="row">
+
+			<div class="table-responsive col-md-12">
+				<table class="table table-striped" cellspacing="0" cellpadding="0">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>E-mail</th>
+							<th>Site</th>
+							<th>User Name</th>
+							<th>Password</th>
+							<th class="actions">Ações</th>
+						</tr>
+					</thead>
+					<tbody id="table_passwords">
+
+
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+		<!-- /#list -->
+	</div>
+	<!-- /#main -->
+
+	<!-- Modal -->
+	<!-- <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog"
+		aria-labelledby="modalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Fechar">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="modalLabel">Excluir Senha</h4>
+				</div>
+				<div class="modal-body">Deseja realmente excluir esta senha?</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="deletePassword(${password.id})">Sim</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Retornar</button>
+				</div>
+			</div>
+		</div>
+	</div>-->
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script>
+				function getPasswords() {
+        $.ajax({
+            method: "get",
+            url: "http://localhost:8080/FTT-WEB-091/PasswordApi"
+        }).then(resp => {
+            let passwords = resp
+            let tableHtml = ""
+
+            	passwords.forEach(password => {
+                tableHtml += `
+                    <tr>
+                        <th scope="row">${password.id}</th>
+                        <td>${password.email}</td>
+                        <td>${password.site}</td>
+                        <td>${password.name}</td>
+                        <td>${password.password}</td>
+                        <td><a class="btn btn-danger btn-xs" href="#" onclick="deletePassword(${password.id})">Excluir</a> 
+                        <a class="btn btn-warning btn-xs" href="${"/FTT-WEB-091/edit.html?password-id=" + password.id}">Editar</a></td>
+                    </tr>
+                `
+            });
+
+            $('#table_passwords').html(tableHtml)
+        })
+    }
+				getPasswords();
+				</script>
+
+	<script>
+				function deletePassword(id) {
+					$.ajax({
+			            method: "delete",
+			            url: `/FTT-WEB-091/PasswordApi?password-id=${id}`
+			        }).then(resp => {
+			            location.reload()
+			        })
+				}
+				
+				</script>
+
+
+</body>
+</html>

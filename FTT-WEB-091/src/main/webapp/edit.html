@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title>Password Wallet</title>
+
+ <link href="css/bootstrap.min.css" rel="stylesheet">
+ <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+		 <div class="navbar-header">
+		  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+		   <span class="sr-only">Toggle navigation</span>
+		   <span class="icon-bar"></span>
+		   <span class="icon-bar"></span>
+		   <span class="icon-bar"></span>
+		  </button>
+		  <a class="navbar-brand" href="index.html">Password Wallet</a>
+		 </div>
+		 <div id="navbar" class="navbar-collapse collapse">
+		  <ul class="nav navbar-nav navbar-right">
+		   <li><a href="index.html">Passwords</a></li>
+		   <li><a href="remember.html">Remember</a></li>
+		  </ul>
+		 </div>
+		</div>
+	   </nav>
+ 
+ <div id="main" class="container-fluid">
+  
+  <h3 class="page-header">Editar Item</h3>
+  
+  <form >
+	<div class="row">
+		<div class="form-group col-md-4">
+			<label for="id">ID</label>
+			<input type="number" class="form-control" id="password-id" name="password-id" placeholder="Digite o valor">
+		</div>
+	</div>
+	<div class="row">
+	  <div class="form-group col-md-4">
+		  <label for="email">E-mail</label>
+		  <input type="email" class="form-control" id="password-email" name="password-email" placeholder="Digite o valor">
+	  </div>
+  </div>
+  <div class="row">
+	  <div class="form-group col-md-4">
+		  <label for="name">User Name</label>
+		  <input type="text" class="form-control" id="password-name" name="password-name" placeholder="Digite o valor">
+	  </div>
+  </div>
+  <div class="row">
+	  <div class="form-group col-md-4">
+		  <label for="password">Password</label>
+		  <input type="text" class="form-control" id="password-password" name="password-password" placeholder="Digite o valor">
+	  </div>
+  </div>
+  <div class="row">
+	  <div class="form-group col-md-4">
+		  <label for="site">Site</label>
+		  <input type="url" class="form-control" id="password-site" name="password-site" placeholder="Digite o valor">
+	  </div>	
+ </div>
+	<div class="row">
+	  <div class="col-md-12">
+	  	<button type="button" id="update" onclick="updatePassword()" class="btn btn-primary">Atualizar</button>
+		<a href="index.html" class="btn btn-default">Cancelar</a>
+	  </div>
+	</div>
+
+  </form>
+ </div>
+ 
+
+ <script src="js/jquery.min.js"></script>
+ <script src="js/bootstrap.min.js"></script>
+ 
+ <script >
+ function isEdit(){
+	    let params = new URLSearchParams(location.search)
+	    let id = params.get("password-id")
+
+	    if(id){
+
+	        $('#password-id').attr('value',id)
+
+	         $.ajax({
+	               method: "get",
+	            url: "/FTT-WEB-091/PasswordApi?password-id=" + id
+	        }).then(resp => {
+	            $('#password-email').attr('value',resp.email)
+	            $('#password-name').attr('value',resp.name)
+	            $('#password-password').attr('value',resp.password)
+	            $('#password-site').attr('value',resp.site)
+	        })
+
+	    }
+	}
+ 
+ function updatePassword(){
+	    let data = $("form").serializeArray()
+
+	    let params = new URLSearchParams(location.search)
+	    let id = params.get("password-id")
+
+	    data.push({ name: "password-id", value: id})
+	    let url = "/FTT-WEB-091/PasswordApi?"
+
+	    data.forEach(dataValue => {
+	        url += `${dataValue.name}=${dataValue.value}&`
+	    })
+
+	    
+	        $.ajax({
+	            method: "put", url
+	        }).then(() => {
+	            location.href = "http://localhost:8080/FTT-WEB-091/index.html"
+	        })
+	}
+ 
+ isEdit();
+ </script>
+</body>
+</html>
