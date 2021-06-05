@@ -30,14 +30,23 @@ public class PasswordApi extends HttpServlet {
     }
     
  
-
+    private void setAccessControlHeaders(HttpServletResponse response) {
+    	response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, HEAD, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+    }
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        setAccessControlHeaders(resp);
+        resp.setStatus(HttpServletResponse.SC_OK);
+    }
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.setStatus(418); //200 - OK - Padrão (Default)
-
+		setAccessControlHeaders(response);
 		response.setContentType("application/json");
 		
 		String passwordId = request.getParameter("password-id");

@@ -1,7 +1,7 @@
+import { datas } from "./datas";
 export class valet{
-    id:BigInteger
-    name: string;
-    email: string;    
-    password: string;
-    site: string;
+    status:string
+    code:number
+    total: number
+    data: datas[]
 }

@@ -5,13 +5,27 @@
     </ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Passwords</ion-title>
+      <ion-title size="large">Valet</ion-title>
     </ion-toolbar>
   </ion-header>
-
-  <app-explore-container name="Tab 1 page"></app-explore-container>
-</ion-content>
+<ion-card >
+  <ion-item >
+    <ion-icon name="chevron-down-outline" slot="start"></ion-icon>
+    <ion-label>Passwords</ion-label>
+  </ion-item>
+    <ion-card-content style="background-color:  	#d3d3d3;">
+      <ion-list style="background-color:  	#d3d3d3;">
+        <ion-item *ngFor="let datas of valet.data">
+          <ion-label>
+            <h2>{{ datas.firstname }} - {{datas.password}}</h2>
+            <p style="text-overflow: initial;white-space: normal;">{{ datas.website }}</p>
+            <ion-button color="danger" href="/tabs/tab4">ADD</ion-button><ion-button color="warning" href="/tabs/tab3">EDIT</ion-button>
+          </ion-label>
+        </ion-item>
+        <div style="height: 1px;"></div>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
